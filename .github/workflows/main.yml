@@ -45,19 +45,19 @@ jobs:
     - name: Package the application
       run: mvn package
       env:
-       JAVA_HOME: ${{ steps.setup-java.outputs.java-home }} 
+       JAVA_HOME: ${{ steps.setup-java.outputs.java-home }}
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-jar
         path: target/*.jar
+
   quality:
-      needs: package
-      build:
-      name: Build and analyze
-      runs-on: ubuntu-latest
-      steps:
+    needs: package # 🚀 Exécute ce job SEULEMENT après "package"
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
@@ -81,9 +81,10 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=calculator-gates_calculator-dreka
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=calculator-kadje_calculator-springboot
+
   docker:
-    needs: package  # 🚀 Exécute ce job SEULEMENT après "package"
+    needs: quality  # 🚀 Exécute ce job SEULEMENT après "quality"
     runs-on: ubuntu-latest
 
     steps:
@@ -110,4 +111,3 @@ jobs:
       run: |
         docker tag my-spring-app:latest ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
-
