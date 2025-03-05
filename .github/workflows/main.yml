@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout code
@@ -30,7 +30,7 @@ jobs:
 
   package:
     needs: build  # 🚀 Exécute ce job SEULEMENT après "build"
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout code
@@ -85,7 +85,7 @@ jobs:
 
   docker:
     needs: quality  # 🚀 Exécute ce job SEULEMENT après "quality"
-    runs-on: ubuntu-latest
+    runs-on: 
 
     steps:
     - name: Checkout code
@@ -108,6 +108,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker image to Docker Hub
-      run: |
+      run: |self-hosted
+
         docker tag my-spring-app:latest ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest     
