@@ -56,7 +56,7 @@ jobs:
   quality:
     needs: package # 🚀 Exécute ce job SEULEMENT après "package"
     name: Build and analyze
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,7 +85,7 @@ jobs:
 
   docker:
     needs: quality  # 🚀 Exécute ce job SEULEMENT après "quality"
-    runs-on: 
+    runs-on: self-hosted
 
     steps:
     - name: Checkout code
@@ -108,7 +108,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker image to Docker Hub
-      run: ubuntu-latest
+      run: self-hosted
 
         docker tag my-spring-app:latest ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest     
