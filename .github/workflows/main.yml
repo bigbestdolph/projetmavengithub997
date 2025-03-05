@@ -110,4 +110,4 @@ jobs:
     - name: Push Docker image to Docker Hub
       run: |
         docker tag my-spring-app:latest ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest 
