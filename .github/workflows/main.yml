@@ -108,7 +108,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker image to Docker Hub
-      run: |self-hosted
+      run: ubuntu-latest
 
         docker tag my-spring-app:latest ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-spring-app:latest     
